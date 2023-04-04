@@ -1,0 +1,79 @@
+{% extends "network/layout.html" %}
+{% load static %}
+{% load template_filters %}
+
+{% block body %}
+    <div style="margin: 10px">
+        <h2>Profile</h2>
+        <div style="margin: 10px">
+            <h6 id="followers">Followers: {{ user1.follower_people.all|length }}</h6>
+            <h6>Followings: {{ user1.following_people.all|length }}</h6>
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+    {% if user1 != request.user %}
+    {% with currently_following=user1.follower_people.all|lookup:request.user %}
+    {% if currently_following  == 1 %}
+    <input type="checkbox" id="switch" class="checkbox" onclick="change_follow({{user1.id}})">
+    <label for="switch" class="toggle2">
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unfollow&nbsp;&nbsp;/&nbsp;&nbsp;Follow</p></label>
+    {% else %}
+    <input type="checkbox" id="switch" class="checkbox" onclick="change_follow({{user1.id}})">
+    <label for="switch" class="toggle1">
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unfollow&nbsp;&nbsp;/&nbsp;&nbsp;Follow</p></label>
+    {% endif %}
+    {% endwith %}
+    {% endif %}
+    {% endif %}
+
+
+
+    {% for post in page_obj %}
+    <div class="{{ post.id }}" id="post_box" style="margin: 10px; border: 1px solid GainsBoro">
+        <div class="div2" style="padding: 10px; margin: 10px">
+            <a href="{% url 'profile' post.poster.id %}" class="poster"><h2>{{ post.poster }}</h2></a>
+            <div class="for_edit"><br><p class="content" style="font-size:20px">"{{ post.content }}"</p></div>
+            <button style="display:inline-block; color:red" id="likes" onclick="count_likes({{ post.id }})">
+                {% with total=post.like_post.all|get_item:request.user %}
+                    {% if total == 1 %}
+                        &#x2665;
+                    {% else %}
+                        &#x2661;
+                    {% endif %}
+                {% endwith %}
+            </button>
+            <h6 style="display:inline-block;" class="likes">{{ post.like_post.all|length }}</h6>
+            <h6 style="color:darkgrey; font-size:14px">{{ post.time }}</h6>
+
+            {% if post.poster == request.user %}
+            <button id="edit" class="btn btn-warning" onclick="edit_post({{ post.id }})">Edit</button>
+            <button id="delete" class="btn btn-danger" onclick="delete_post({{ post.id }})">Delete</button>
+            {% endif %}
+
+            <button id="comment_button" type="button" class="btn btn-light" onclick="view_comment({{ post.id }})">View & Add Comments({{ post.commented_post.all|length }})</button>
+            <div class="view_all_comment" id="{{ post.id }}" style="display: none">
+                <ul class="ul">
+                {% with all_comments=post.commented_post.all %}
+                {% for i in all_comments %}
+                    <li class="{{ i.id }}" style="padding:3px; margin:3px"><a href="{% url 'profile' i.commentor.id %}">{{ i.commentor }}</a>: <strong>{{ i.comment }}</strong>({{ i.time }})
+                        {% if request.user == i.commentor %}
+                        <button type="button" style="font-size:10px" class="btn btn-link" onclick="delete_comment({{ i.id }}, {{ post.id }}, {{ post.commented_post.all|length }})">[delete]</button>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                {% endwith %}
+                </ul>
+                <div class="new">
+                    <input type="text" class="new_comment">
+                    <button type="button" class="btn btn-info" onclick="add_comment({{ post.id }}, {{ post.commented_post.all|length }})">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'network/inbox.js' %}"></script>
+{% endblock %}
