@@ -130,4 +130,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "network.User"
-CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = ['https://social-dongdevelops.up.railway.app']
