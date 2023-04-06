@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import mimetypes
 import os
 
-mimetypes.add_type("text/css", ".css", True)
-mimetypes.add_type("text/javascript", ".js", True)
+mimetypes.add_type("app/css", ".css", True)
+mimetypes.add_type("app/javascript", ".js", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
