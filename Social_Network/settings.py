@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-uq993h2y%96l$)hw9s)4^d-ci8pv1z%q@huqteihi1do*fni(1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['social-dongdevelops.up.railway.app']
+ALLOWED_HOSTS = ['social-dongdevelops.up.railway.app', '127.0.0.1']
 
 
 # Application definition
