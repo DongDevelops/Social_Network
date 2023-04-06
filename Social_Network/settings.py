@@ -24,7 +24,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'network/static/network')
 ]
 
-STATIC_URL = '/staticfiles/'
+STATIC_URL = '/network/static/network/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
